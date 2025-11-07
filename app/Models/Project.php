@@ -9,6 +9,7 @@ class Project extends Model
 {
     /** @use HasFactory<\Database\Factories\ProjectFactory> */
     use HasFactory;
+
     protected $guarded = ['id'];
 
     public function user()
