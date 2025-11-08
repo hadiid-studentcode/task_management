@@ -10,10 +10,18 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::group(['middleware' => ['guest:sanctum']], function () {
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::post('/login', [AuthController::class, 'login']);
+Route::get('/hello-world', function (Request $request) {
+    return response()->json(['message' => 'Hello World!']);
 });
+
+
+Route::controller(AuthController::class)->middleware('guest:sanctum')->group(function () {
+
+    Route::get('/login', 'login')->name('login');
+    Route::post('/register', 'register');
+    Route::post('/login', 'authenticate');
+});
+
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
