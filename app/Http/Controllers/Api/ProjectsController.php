@@ -30,7 +30,7 @@ class ProjectsController extends Controller
         } catch (\Throwable $th) {
             return response()->json([
                 'message' => 'Failed to fetch projects.'
-            ]);
+            ], 500);
         }
     }
 
@@ -110,7 +110,7 @@ class ProjectsController extends Controller
         } catch (\Throwable $th) {
             return response()->json([
                 'message' => 'Failed to delete project.',
-            ]);
+            ], 500);
         }
     }
 }

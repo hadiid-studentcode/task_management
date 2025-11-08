@@ -31,7 +31,7 @@ class TasksController extends Controller
         } catch (\Throwable $th) {
             return response()->json([
                 'message' => 'Failed to fetch tasks.'
-            ]);
+            ], 500);
         }
     }
 
@@ -104,11 +104,11 @@ class TasksController extends Controller
             $this->taskService->deleteTask($id);
             return response()->json([
                 'message' => 'Task deleted successfully'
-            ]);
+            ], 200);
         } catch (\Throwable $th) {
             return response()->json([
                 'message' => 'Failed to delete task.'
-            ]);
+            ], 500);
         }
     }
 }
