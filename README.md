@@ -1,59 +1,143 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# API Manajemen Tugas (Laravel SOLID Technical Test)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Ini adalah proyek API RESTful sederhana untuk manajemen tugas, dibuat sebagai bagian dari tes teknis backend. Fokus utama proyek ini adalah untuk mendemonstrasikan implementasi API CRUD yang bersih, *maintainable*, dan *scalable* dengan menerapkan **prinsip-prinsip SOLID** dalam ekosistem Laravel.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🚀 Fitur Utama
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+* **Autentikasi & Otorisasi:** Registrasi, login, dan logout user menggunakan **Laravel Sanctum**.
+* **Manajemen Project:** Fungsionalitas CRUD penuh untuk *projects*.
+* **Manajemen Task:** Fungsionalitas CRUD penuh untuk *tasks* yang terhubung ke *projects*.
+* **Validasi Request:** Menggunakan kelas *Form Request* khusus untuk validasi data yang masuk.
+* **Transformasi Respons:** Menggunakan *API Resources* untuk memformat output JSON secara konsisten.
+* **Arsitektur Berbasis SOLID:** Pemisahan tanggung jawab yang jelas menggunakan *Service* dan *Repository Pattern*.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 🛠️ Teknologi yang Digunakan
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+* **PHP 8.2**
+* **Laravel 12.x**
+* **Laravel Sanctum** (Untuk autentikasi API)
+* **MySQL** (Sesuai konfigurasi `.env`)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## ⚙️ Instalasi & Setup
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Ikuti langkah-langkah ini untuk menjalankan proyek secara lokal:
 
-### Premium Partners
+1.  **Clone repository:**
+    ```bash
+    git clone https://github.com/hadiid-studentcode/task_management.git
+    cd task_management
+    ```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+2.  **Install dependencies:**
+    ```bash
+    composer install
+    ```
 
-## Contributing
+3.  **Buat file environment:**
+    ```bash
+    cp .env.example .env
+    ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+4.  **Generate application key:**
+    ```bash
+    php artisan key:generate
+    ```
 
-## Code of Conduct
+5.  **Konfigurasi Database:**
+    Buka file `.env` dan atur koneksi database Anda (DB_DATABASE, DB_USERNAME, DB_PASSWORD).
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+6.  **Jalankan migrasi:**
+    ```bash
+    php artisan migrate
+    ```
 
-## Security Vulnerabilities
+7.  **(Opsional) Jalankan database seeder:**
+    Jika Anda menyediakannya, jalankan seeder untuk data dummy.
+    ```bash
+    php artisan db:seed
+    ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+8.  **Jalankan server:**
+    ```bash
+    php artisan serve
+    ```
+    API akan berjalan di `http://127.0.0.1:8000`.
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 📚 Dokumentasi API (Endpoints)
+
+Semua *endpoint* memiliki prefix `/api`.
+
+### 1. Autentikasi
+
+| Method | Endpoint | Deskripsi | Headers | Body (JSON) |
+| :--- | :--- | :--- | :--- | :--- |
+| `POST` | `/register` | Registrasi user baru. | `Accept: application/json` | `{ "name": "User", "email": "user@test.com", "password": "password", "password_confirmation": "password" }` |
+| `POST` | `/login` | Login user untuk mendapatkan token. | `Accept: application/json` | `{ "email": "user@test.com", "password": "password" }` |
+| `POST` | `/logout` | Logout user & membatalkan token. | `Authorization: Bearer [TOKEN]` | (Kosong) |
+
+---
+
+### 2. Projects (Membutuhkan Autentikasi)
+
+Semua *endpoint* di bawah ini memerlukan header `Authorization: Bearer [TOKEN]`.
+
+| Method | Endpoint | Deskripsi | Body (JSON) |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/projects` | Mendapatkan semua *projects* milik user yang sedang login. | (Kosong) |
+| `POST` | `/projects` | Membuat *project* baru. | `{ "name": "Project Baru", "description": "Deskripsi singkat" }` |
+| `GET` | `/projects/{id}` | Menampilkan detail satu *project*. | (Kosong) |
+| `PUT` | `/projects/{id}` | Memperbarui *project*. | `{ "name": "Project Update", "description": "Deskripsi baru" }` |
+| `DELETE` | `/projects/{id}` | Menghapus *project*. | (Kosong) |
+
+---
+
+### 3. Tasks (Membutuhkan Autentikasi)
+
+Semua *endpoint* di bawah ini memerlukan header `Authorization: Bearer [TOKEN]`.
+
+| Method | Endpoint | Deskripsi | Body (JSON) |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/tasks` | Mendapatkan semua *tasks* (idealnya difilter milik user). | (Kosong) |
+| `POST` | `/tasks` | Membuat *task* baru. | `{ "project_id": 1, "title": "Task Baru", "description": "Detail task", "status": "pending", "due_date": "2025-12-31 23:59:00", "assignee_id": 1 }` |
+| `GET` | `/tasks/{id}` | Menampilkan detail satu *task*. | (Kosong) |
+| `PUT` | `/tasks/{id}` | Memperbarui *task*. | `{ "title": "Task Update", "status": "in_progress" }` |
+| `DELETE` | `/tasks/{id}` | Menghapus *task*. | (Kosong) |
+
+---
+
+## 💡 Penerapan Prinsip SOLID
+
+Arsitektur kode ini dirancang untuk mematuhi 5 prinsip SOLID:
+
+### S - Single Responsibility Principle (SRP)
+Setiap kelas memiliki satu tanggung jawab utama:
+* **Controllers** (`ProjectsController`): Hanya bertanggung jawab atas request & response HTTP.
+* **Services** (`ProjectService`): Bertanggung jawab atas semua logika bisnis (membuat, update, validasi bisnis).
+* **Repositories** (`ProjectRepository`): Bertanggung jawab atas kueri dan interaksi dengan database (Eloquent).
+* **Form Requests** (`StoreProjectRequest`): Bertanggung jawab atas validasi data input dan otorisasi request.
+* **API Resources** (`ProjectResource`): Bertanggung jawab atas transformasi data model ke format JSON.
+
+### O - Open/Closed Principle (OCP)
+Sistem ini terbuka untuk ekstensi tapi tertutup untuk modifikasi.
+* **Contoh:** Jika kita ingin mengirim notifikasi email saat sebuah *task* selesai, kita tidak perlu mengubah `TaskService`. Kita bisa menggunakan **Events & Listeners** Laravel. `TaskService` akan men-dispatch event `TaskCompleted`, dan `SendNotificationListener` akan menangani logika pengiriman email.
+
+### L - Liskov Substitution Principle (LSP)
+Setiap implementasi *repository* harus bisa menggantikan *interface*-nya tanpa merusak aplikasi.
+* `EloquentProjectRepository` mengimplementasikan `ProjectRepositoryInterface`. Jika kita ingin mengganti database ke MongoDB, kita bisa membuat `MongoProjectRepository` yang juga mengimplementasikan *interface* yang sama, dan aplikasi akan tetap berjalan hanya dengan mengubah *binding* di Service Provider.
+
+### I - Interface Segregation Principle (ISP)
+*Interface* dibuat spesifik sesuai kebutuhan kliennya.
+* Kami memisahkan `ProjectRepositoryInterface` dan `TaskRepositoryInterface`. Kami tidak membuat satu `CrudRepositoryInterface` raksasa yang memaksa setiap *repository* mengimplementasikan metode yang tidak diperlukannya (misalnya, `findByName` mungkin hanya ada di Project, tidak di Task).
+
+### D - Dependency Inversion Principle (DIP)
+Modul *high-level* (Services, Controllers) tidak bergantung pada modul *low-level* (Eloquent), melainkan keduanya bergantung pada **abstraksi (Interfaces)**.
+* **Dependency Injection (DI)** digunakan secara masif. `ProjectsController` bergantung pada `ProjectServiceInterface`, bukan `ProjectService`. `ProjectService` bergantung pada `ProjectRepositoryInterface`, bukan `EloquentProjectRepository`.
+* *Binding* antara *interface* dan implementasi konkretnya diatur dalam **Service Provider** (mis. `AppServiceProvider` atau `RepositoryServiceProvider`).

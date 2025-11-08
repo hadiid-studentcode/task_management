@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Projects\ProjectRequest;
+use App\Http\Resources\Project\ProjectResource;
 use App\Services\ProjectService;
 use Illuminate\Http\Request;
 
@@ -22,10 +23,10 @@ class ProjectsController extends Controller
     public function index()
     {
         try {
-            $project = $this->projectService->getAllProject();
+            $projects = $this->projectService->getAllProject();
             return response()->json([
                 'message' => 'Projects fetched successfully',
-                'data' => $project
+                'data' => ProjectResource::collection($projects)
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
@@ -61,10 +62,10 @@ class ProjectsController extends Controller
     public function show(string $id)
     {
         try {
-            $result = $this->projectService->getProjectById($id);
+            $project = $this->projectService->getProjectById($id);
             return response()->json([
                 'message' => 'Project fetched successfully',
-                'data' => $result
+                'data' =>  ProjectResource::collection($project)
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([

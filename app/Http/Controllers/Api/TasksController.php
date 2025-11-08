@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Taks\TaksRequest;
+use App\Http\Resources\Task\TaskResource;
 use App\Services\TaskService;
 use Illuminate\Http\Request;
 
@@ -23,10 +24,10 @@ class TasksController extends Controller
     public function index()
     {
         try {
-            $task = $this->taskService->getAllTask();
+            $tasks = $this->taskService->getAllTask();
             return response()->json([
                 'message' => 'Tasks fetched successfully',
-                'data' => $task
+                'data' => TaskResource::collection($tasks)
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
@@ -62,10 +63,10 @@ class TasksController extends Controller
     public function show(string $id)
     {
         try {
-            $result = $this->taskService->getTaskById($id);
+            $task = $this->taskService->getTaskById($id);
             return response()->json([
                 'message' => 'Task fetched successfully',
-                'data' => $result
+                'data' => TaskResource::collection($task)
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
