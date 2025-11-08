@@ -2,13 +2,14 @@
 
 namespace App\Interfaces;
 
-class TaskRepositoryInterface
+interface TaskRepositoryInterface
 {
     /**
      * Create a new class instance.
      */
-    public function __construct()
-    {
-        //
-    }
+    public function getAllTask();
+    public function getTaskById($taskId);
+    public function createTask(array $taskDetails);
+    public function updateTask($taskId, array $newDataDetails);
+    public function deleteTask($taskId);
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Taks;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class TaksRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class TaksRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return Auth::check();
     }
 
     /**
@@ -22,7 +23,20 @@ class TaksRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+            'status' => ['required', 'in:pending,in_progress,completed'],
+            'due_date' => ['nullable', 'date'],
+            'project_id' => ['required', 'exists:projects,id'],
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'title.required' => 'Title is required.',
+            'status.required' => 'Status is required.',
+            'project_id.required' => 'Project ID is required.',
+            'project_id.exists' => 'Project ID does not exist.',
         ];
     }
 }

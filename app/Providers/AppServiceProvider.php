@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Interfaces\ProjectRepositoryInterface;
+use App\Interfaces\TaskRepositoryInterface;
 use App\Interfaces\UserRepositoryInterface;
 use App\Repositories\EloquentProjectRepository;
+use App\Repositories\EloquentTaskRepository;
 use App\Repositories\EloquentUserRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -17,6 +19,7 @@ class AppServiceProvider extends ServiceProvider
     public $bindings = [
         UserRepositoryInterface::class => EloquentUserRepository::class,
         ProjectRepositoryInterface::class => EloquentProjectRepository::class,
+        TaskRepositoryInterface::class => EloquentTaskRepository::class
     ];
     public function register(): void
     {
