@@ -25,7 +25,7 @@ Route::controller(AuthController::class)->middleware('guest:sanctum')->group(fun
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
-    Route::resource('/projects', ProjectsController::class);
-    Route::resource('/tasks', TasksController::class);
+    Route::resource('/projects', ProjectsController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
+    Route::resource('/tasks', TasksController::class)->only(['index', 'store', 'show', 'update', 'destroy']);
     Route::post('/logout', [AuthController::class, 'logout']);
 });

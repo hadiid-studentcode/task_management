@@ -21,7 +21,7 @@ class AuthController extends Controller
     public function login()
     {
         return response()->json([
-            'message' => 'Please login'
+            'message' => 'Not Authenticated'
         ], 200);
     }
 
@@ -38,8 +38,7 @@ class AuthController extends Controller
             ], 201);
         } catch (\Throwable $th) {
             return response()->json([
-                'message' => 'Failed to create user.',
-                'error' => $th->getMessage()
+                'message' => 'Failed to create user.'
             ], 500);
         }
     }
@@ -53,14 +52,9 @@ class AuthController extends Controller
                 'message' => 'User logged in successfully',
                 'data' => $result
             ], 200);
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => $e->getMessage()
-            ], 401);
         } catch (\Throwable $th) {
             return response()->json([
-                'message' => 'Failed to login user.',
-                'error' => $th->getMessage()
+                'message' => 'Failed to login user.'
             ], 500);
         }
     }
@@ -72,14 +66,9 @@ class AuthController extends Controller
             return response()->json([
                 'message' => 'User logged out successfully',
             ], 200);
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => $e->getMessage()
-            ], 401);
         } catch (\Throwable $th) {
             return response()->json([
-                'message' => 'Failed to logout user.',
-                'error' => $th->getMessage()
+                'message' => 'Failed to logout user.'
             ], 500);
         }
     }

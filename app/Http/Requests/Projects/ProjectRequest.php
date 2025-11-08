@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Projects;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+
 
 class ProjectRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class ProjectRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return Auth::check();
     }
 
     /**
@@ -22,7 +24,15 @@ class ProjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string', 'max:255'],
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'name.required' => 'Name is required.',
+            'description.required' => 'Description is required.',
         ];
     }
 }

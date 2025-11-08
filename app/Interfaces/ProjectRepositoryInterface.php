@@ -2,13 +2,14 @@
 
 namespace App\Interfaces;
 
-class ProjectRepositoryInterface
+interface ProjectRepositoryInterface
 {
     /**
      * Create a new class instance.
      */
-    public function __construct()
-    {
-        //
-    }
+    public function getAllProject();
+    public function getProjectById($projectId);
+    public function createProject(array $projectDetails);
+    public function updateProject($projectId, array $newDataDetails);
+    public function deleteProject($projectId);
 }

@@ -20,27 +20,49 @@ class UserService
 
     public function getAll()
     {
-        return $this->userRepository->getAllUser();
+        try {
+            $users =  $this->userRepository->getAllUser();
+            return $users;
+        } catch (\Throwable $th) {
+            Log::error('User fetch failed: ' . $th->getMessage(), [
+                'trace' => $th->getTraceAsString()
+            ]);
+            throw $th;
+        }
     }
     public function getUserById($userId)
     {
-        return $this->userRepository->getUserById($userId);
+
+        try {
+            $user = $this->userRepository->getUserById($userId);
+            return $user;
+        } catch (\Throwable $th) {
+            Log::error('User fetch failed: ' . $th->getMessage(), [
+                'trace' => $th->getTraceAsString()
+            ]);
+            throw $th;
+        }
     }
     public function deleteUser($userId)
     {
-        return $this->userRepository->deleteUser($userId);
+        try {
+            $this->userRepository->deleteUser($userId);
+            return true;
+        } catch (\Throwable $th) {
+            Log::error('User deletion failed: ' . $th->getMessage(), [
+                'trace' => $th->getTraceAsString()
+            ]);
+            throw $th;
+        }
     }
 
-    public function createNewUser(array $data)
+    public function createNewUser(array $userDetails)
     {
         DB::beginTransaction();
         try {
 
-            $user =  $this->userRepository->createUser([
-                'name' => $data['name'],
-                'email' => $data['email'],
-                'password' => Hash::make($data['password'])
-            ]);;
+            $userDetails['password'] = bcrypt($userDetails['password']);
+            $user =  $this->userRepository->createUser($userDetails);
             DB::commit();
 
 
@@ -64,26 +86,51 @@ class UserService
     public function authenticateUser(array $credentials)
     {
 
-        if (!Auth::attempt($credentials)) {
-            throw new \Exception('Invalid credentials');
+        try {
+
+            if (!Auth::attempt($credentials)) {
+                throw new \Exception('Invalid credentials');
+            }
+
+            $user = Auth::user();
+            $token = $user->createToken('auth_token')->plainTextToken;
+
+            return [
+                'user' => $user,
+                'token' => $token
+            ];
+        } catch (\Throwable $th) {
+
+            Log::error('Login failed: ' . $th->getMessage(), [
+                'trace' => $th->getTraceAsString()
+            ]);
+
+            throw $th;
         }
-
-        $user = Auth::user();
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return [
-            'user' => $user,
-            'token' => $token
-        ];
     }
     public function logoutUser($user)
     {
-        $user->tokens()->delete();
+        try {
+            $user->tokens()->delete();
 
-        return true;
+            return true;
+        } catch (\Throwable $th) {
+            Log::error('Logout failed: ' . $th->getMessage(), [
+                'trace' => $th->getTraceAsString()
+            ]);
+            throw $th;
+        }
     }
-    public function updateUser($userId, array $data)
+    public function updateUser($userId, array $userDetails)
     {
-        return $this->userRepository->updateUser($userId, $data);
+        try {
+            $user = $this->userRepository->updateUser($userId, $userDetails);
+            return $user;
+        } catch (\Throwable $th) {
+            Log::error('User update failed: ' . $th->getMessage(), [
+                'trace' => $th->getTraceAsString()
+            ]);
+            throw $th;
+        }
     }
 }
