@@ -50,6 +50,7 @@ class ProjectService
             $this->projectRepository->deleteProject($projectId);
             return true;
         } catch (\Throwable $th) {
+            dd($th->getMessage());
             Log::error('Project deletion failed: ' . $th->getMessage(), [
                 'trace' => $th->getTraceAsString()
             ]);

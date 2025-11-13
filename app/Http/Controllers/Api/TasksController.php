@@ -66,7 +66,7 @@ class TasksController extends Controller
             $task = $this->taskService->getTaskById($id);
             return response()->json([
                 'message' => 'Task fetched successfully',
-                'data' => TaskResource::collection($task)
+                'data' => $task
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([

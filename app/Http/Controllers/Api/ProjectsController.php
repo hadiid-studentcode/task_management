@@ -65,7 +65,7 @@ class ProjectsController extends Controller
             $project = $this->projectService->getProjectById($id);
             return response()->json([
                 'message' => 'Project fetched successfully',
-                'data' =>  ProjectResource::collection($project)
+                'data' =>  $project
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
@@ -104,6 +104,7 @@ class ProjectsController extends Controller
     public function destroy(string $id)
     {
         try {
+          
             $this->projectService->deleteProject($id);
             return response()->json([
                 'message' => 'Project deleted successfully'
